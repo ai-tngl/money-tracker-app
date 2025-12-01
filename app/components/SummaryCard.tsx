@@ -16,29 +16,25 @@ const currency = (v: number) =>
 
 export default function SummaryCard({ income, expense, net }: Props) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div className="bg-white rounded-2xl p-4 shadow-sm border">
-        <div className="text-sm text-gray-500">Total Income</div>
-        <div className="mt-2 text-2xl font-semibold text-green-600">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+      <div className="border-hidden bg-purple-100 rounded-md p-4 hover:bg-blue-200 cursor-pointer bg-shadow-lg">
+        <div className="text-sm text-gray-500">Total Balance</div>
+        <div className="mt-2 text-2xl font-semibold text-purple-600">
           {currency(income)}
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border">
-        <div className="text-sm text-gray-500">Total Expense</div>
-        <div className="mt-2 text-2xl font-semibold text-red-600">
+      <div className="order-hidden bg-purple-100 rounded-md p-4 hover:bg-green-200 cursor-pointer">
+        <div className="text-sm text-gray-500">Total Income</div>
+        <div className="mt-2 text-2xl font-semibold text-green-600">
           {currency(expense)}
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border">
-        <div className="text-sm text-gray-500">Net Balance</div>
-        <div
-          className={`mt-2 text-2xl font-semibold ${
-            net >= 0 ? "text-indigo-700" : "text-red-700"
-          }`}
-        >
-          {currency(net)}
+      <div className="border-hidden bg-purple-100 rounded-md p-4 hover:bg-red-200 cursor-pointer">
+        <div className="text-sm text-gray-500">Total Expenses</div>
+        <div className="mt-2 text-2xl font-semibold text-red-600">
+          {currency(expense)}
         </div>
       </div>
     </div>

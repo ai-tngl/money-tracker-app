@@ -1,36 +1,25 @@
+"use client";
 import React from "react";
+import { useState } from "react";
 
-function Input({
-  id,
-  label,
-  type = "text",
-  placeholder,
-}: {
-  id: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-}) {
-  return (
-    <div className="w-full">
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-gray-700 mb-1"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      />
-    </div>
-  );
-}
+export type SignupData = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export default function SignupPage() {
+  const [signupData, setSignupData] = useState<SignupData>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Signing up...", signupData);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-600 to-purple-400 p-6">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-6">
@@ -41,32 +30,48 @@ export default function SignupPage() {
           </p>
         </div>
 
-        <form className="space-y-4">
-          <Input
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
             id="name"
-            label="Full name"
-            placeholder="Enter your full name"
+            name="name"
+            type="text"
+            placeholder="Full name"
+            value={signupData.name}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                name: e.target.value,
+              })
+            }
+            className="w-full rounded-md border border-purple-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
 
-          <Input
+          <input
             id="email"
-            label="Email"
             type="email"
             placeholder="you@example.com"
+            value={signupData.email}
+            onChange={(e) => {
+              setSignupData({
+                ...signupData,
+                email: e.target.value,
+              });
+            }}
+            className="w-full rounded-md border border-purple-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
 
-          <Input
+          <input
             id="password"
-            label="Password"
             type="password"
             placeholder="At least 8 characters"
-          />
-
-          <Input
-            id="confirm"
-            label="Confirm password"
-            type="password"
-            placeholder="Repeat password"
+            value={signupData.password}
+            onChange={(e) =>
+              setSignupData({
+                ...signupData,
+                password: e.target.value,
+              })
+            }
+            className="w-full rounded-md border border-purple-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
 
           <button
@@ -85,37 +90,6 @@ export default function SignupPage() {
           >
             Sign in
           </a>
-        </div>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or continue with
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <button
-              className="flex items-center justify-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50"
-              type="button"
-              aria-label="Continue with Google"
-            >
-              <img src="/google.webp" alt="Google" className="h-5 w-5" />
-            </button>
-
-            <button
-              className="flex items-center justify-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50"
-              type="button"
-              aria-label="Continue with Facebook"
-            >
-              <img src="/facebook.webp" alt="Facebook" className="h-5 w-5" />
-            </button>
-          </div>
         </div>
       </div>
     </div>

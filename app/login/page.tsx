@@ -1,16 +1,35 @@
 "use client";
 import React from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
-export default function LoginPage({ greeting }: { greeting?: string }) {
+export type LoginData = {
+  email: string;
+  password: string;
+};
+
+export default function LoginPage() {
+  const [loginData, setLoginData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Logging in...", loginData);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-r from-purple-600 to-purple-400 p-6">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-6 flex flex-col items-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          {greeting || "Welcome back"}
+          {"Welcome back"}
         </h1>
         <p className="text-sm text-gray-500 mb-6">Sign in to your account</p>
-        <form className="space-y-4 w-full flex flex-col items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 w-full flex flex-col items-center"
+        >
           <div className="w-full">
             <label
               htmlFor="email"
@@ -23,6 +42,12 @@ export default function LoginPage({ greeting }: { greeting?: string }) {
               name="email"
               type="email"
               placeholder="you@example.com"
+              onChange={(e) => {
+                setLoginData({
+                  ...loginData,
+                  email: e.target.value,
+                });
+              }}
               className="w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
@@ -38,6 +63,12 @@ export default function LoginPage({ greeting }: { greeting?: string }) {
               name="password"
               type="password"
               placeholder="••••••••"
+              onChange={(e) => {
+                setLoginData({
+                  ...loginData,
+                  password: e.target.value,
+                });
+              }}
               className="w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
@@ -47,12 +78,6 @@ export default function LoginPage({ greeting }: { greeting?: string }) {
           >
             Sign in
           </button>
-          <div className="text-sm text-center text-gray-500 w-full">
-            Forgot password?{" "}
-            <button type="button" className="text-indigo-600 underline">
-              Reset
-            </button>
-          </div>
         </form>
         <div className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
@@ -65,19 +90,6 @@ export default function LoginPage({ greeting }: { greeting?: string }) {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200" />
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <button className="flex items-center justify-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50">
-              <img src="/google.webp" alt="Google" className="h-5 w-5" />
-            </button>
-            <button className="flex items-center justify-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-sm hover:bg-gray-50">
-              <img src="/facebook.webp" alt="Facebook" className="h-5 w-5" />
-            </button>
           </div>
         </div>
       </div>
