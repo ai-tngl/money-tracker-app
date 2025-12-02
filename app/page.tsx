@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
+import { Transaction } from "@/lib/api";
 import SummaryCard from "./components/SummaryCard";
 import TransactionForm from "./components/TransactionForm";
+import TransactionCard from "./components/TransactionCard";
 
 function DashboardPage() {
   const [showForm, setShowForm] = useState(false);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   return (
     <div className="min-h-screen p-10 bg-linear-to-r from-purple-500 to-purple-300">
@@ -14,7 +16,10 @@ function DashboardPage() {
           <h1 className="text-lg font-bold text-purple-800">
             Welcome back, Ailyn!
           </h1>
-          <button className="bg-purple-100 text-purple-600 px-4 py-2 text-sm rounded-lg font-semibold hover:bg-purple-300">
+          <button
+            onClick={() => console.log("Signing out...")}
+            className="bg-purple-100 text-purple-600 px-4 py-2 text-sm rounded-lg font-semibold hover:bg-purple-300"
+          >
             Sign Out
           </button>
         </div>
@@ -36,21 +41,12 @@ function DashboardPage() {
             Recent Transactions
           </h2>
         </div>
-
-        <div className="space-y-3">
-          <div className="flex justify-between items-center p-4 bg-purple-50 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-600 font-bold">+</span>
-              </div>
-              <div>
-                <p className="font-medium text-gray-800">Project Fee</p>
-                <p className="text-xs text-gray-500">Jun 2, 2025 </p>
-              </div>
-            </div>
-            <span className="text-green-600 font-semibold">+ ₱2,000.00</span>
-          </div>
-        </div>
+        <TransactionCard
+          transactions={transactions}
+          onDelete={(id) =>
+            setTransactions(transactions.filter((t) => t.id !== id))
+          }
+        />
       </div>
     </div>
   );
