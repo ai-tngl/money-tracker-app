@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export type Transaction = {
   description: string;
@@ -7,17 +7,46 @@ export type Transaction = {
   user: string;
 };
 
-export default function TransactionForm() {
-  const [transactionData, setTransactionData] = useState<Transaction>({
-    description: "",
-    amount: 0,
-    type: "income",
-    user: "",
-  });
+interface TransactionFormProps {
+  onSubmit?: (data: Transaction) => void;
+  initialData?: Transaction;
+  onCancel?: () => void;
+}
+
+export default function TransactionForm({
+  onSubmit,
+  initialData,
+  onCancel,
+}: TransactionFormProps) {
+  const [transactionData, setTransactionData] = useState<Transaction>(
+    initialData || {
+      description: "",
+      amount: 0,
+      type: "income",
+      user: "",
+    }
+  );
+
+  useEffect(() => {
+    if (initialData) {
+      setTransactionData(initialData);
+    }
+  }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // to prevent page reload
-    console.log("Submitted transaction:", transactionData);
+    if (onSubmit) {
+      onSubmit(transactionData);
+    } else {
+      console.log("Submitted transaction:", transactionData);
+    }
+    // Reset form
+    setTransactionData({
+      description: "",
+      amount: 0,
+      type: "income",
+      user: "",
+    });
   };
 
   return (
@@ -37,6 +66,7 @@ export default function TransactionForm() {
             id="description"
             name="description"
             placeholder="Enter description"
+            value={transactionData.description}
             onChange={(e) => {
               setTransactionData({
                 ...transactionData,
@@ -59,6 +89,7 @@ export default function TransactionForm() {
             id="amount"
             name="amount"
             placeholder="0.00"
+            value={transactionData.amount}
             onChange={(e) => {
               setTransactionData({
                 ...transactionData,
@@ -79,6 +110,7 @@ export default function TransactionForm() {
           <select
             id="category"
             name="category"
+            value={transactionData.type}
             onChange={(e) => {
               setTransactionData({
                 ...transactionData,
@@ -93,16 +125,22 @@ export default function TransactionForm() {
           </select>
         </div>
 
-        <div className="flex justify-end ">
+        <div className="flex justify-end gap-2">
           <button
             type="submit"
-            onClick={() =>
-              console.log("Saving transaction...", transactionData)
-            }
             className="py-1 px-3 text-sm bg-purple-500 text-white rounded-lg hover:bg-purple-700 transition"
           >
-            Save New Transaction
+            {initialData ? "Update Transaction" : "Save New Transaction"}
           </button>
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="py-1 px-2 text-sm bg-red-300 text-white rounded-xl hover:bg-red-400 transition"
+            >
+              ×
+            </button>
+          )}
         </div>
       </form>
     </div>

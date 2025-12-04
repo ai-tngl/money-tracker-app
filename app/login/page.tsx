@@ -22,9 +22,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-r from-purple-600 to-purple-400 p-6">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-6 flex flex-col items-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          {"Welcome back"}
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
+        <pre>{JSON.stringify(loginData, null, 2)}</pre>
         <p className="text-sm text-gray-500 mb-6">Sign in to your account</p>
         <form
           onSubmit={handleSubmit}
@@ -81,7 +80,7 @@ export default function LoginPage() {
         </form>
         <div className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <button className="text-indigo-600 font-medium underline">
+          <button className="text-indigo-600 font-medium underline hover:bg-purple-500">
             <a href="/signup">Create one</a>
           </button>
         </div>

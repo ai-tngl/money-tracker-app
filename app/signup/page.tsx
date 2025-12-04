@@ -86,7 +86,7 @@ export default function SignupPage() {
           Already have an account?{" "}
           <a
             href="/login"
-            className="items-center text-indigo-600 font-medium underline"
+            className="items-center text-indigo-600 font-medium underline hover:text-purple-500"
           >
             Sign in
           </a>
